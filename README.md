@@ -29,6 +29,7 @@ It's very easy to get this up and running on your own machine. Just follow these
 1. Clone the repository
 
 git clone https://github.com/mgorkemklc/tarim-ve-hayvancilik.git
+
 cd tarim-ve-hayvancilik
 
 
