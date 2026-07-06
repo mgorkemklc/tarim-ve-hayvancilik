@@ -23,9 +23,9 @@ if ciftlik_dosyasi is not None:
     farm_name = df_farm['isim'].value_counts().index[0]
     df_f1 = df_farm[df_farm['isim'] == farm_name].copy()
     
-    # Zaman Serisi Hazırlığı
+    # Zaman Serisi Hazırlığı (Güncellenen Kısım: ffill() kullanıldı)
     df_ts = df_f1.groupby('tarih')['sut_verimi(lt)(label)'].mean().reset_index().set_index('tarih')
-    df_ts = df_ts.asfreq('D').fillna(method='ffill')
+    df_ts = df_ts.asfreq('D').ffill()
     
     # Model Eğitimi
     model = ExponentialSmoothing(df_ts['sut_verimi(lt)(label)'], trend='add', seasonal='add', seasonal_periods=7).fit()
@@ -55,8 +55,9 @@ if hayvan_dosyasi is not None:
     animal_name = df_animal['hayvan'].value_counts().index[0]
     df_a1 = df_animal[df_animal['hayvan'] == animal_name].copy()
     
+    # Zaman Serisi Hazırlığı (Güncellenen Kısım: ffill() kullanıldı)
     df_a_ts = df_a1.groupby('tarih')['sut_verimi(lt)(label)'].mean().reset_index().set_index('tarih')
-    df_a_ts = df_a_ts.asfreq('D').fillna(method='ffill')
+    df_a_ts = df_a_ts.asfreq('D').ffill()
     
     model_a = ExponentialSmoothing(df_a_ts['sut_verimi(lt)(label)'], trend='add', seasonal='add', seasonal_periods=7).fit()
     forecast_a = model_a.forecast(30)
